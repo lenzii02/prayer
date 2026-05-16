@@ -299,6 +299,15 @@ const RITES = {
     iconCaption: 'Kristus Pantokrator \u00B7 Sinai, Abad VI',
     iconAlt: 'Ikon Kristus Pantokrator dari Sinai',
   },
+  arabic: {
+    name: 'Arab \u00B7 Bahasa Arab',
+    original: 'يا رب يسوع المسيح، يا ابن الله، ارحمني أنا الخاطئ.',
+    transliteration: "Ya Rabb Yasū' al-Masīḥ, yā ibn Allāh, irhamnī anā al-khāṭi'",
+    meaning: 'Tuhan Yesus Kristus, Putra Allah, kasihanilah aku, orang berdosa ini.',
+    iconSrc: DEFAULT_PRAYER_IMAGE.src,
+    iconCaption: 'Ikon Kristus \u00B7 Tradisi Arab',
+    iconAlt: 'Ikon Kristus untuk tradisi Arab',
+  },
 };
 
 const COUNT_DESC = {
@@ -620,6 +629,16 @@ function updateSetupUI() {
   previewOriginal.innerHTML = rite.original;
   previewTranslit.textContent = rite.transliteration;
   previewMeaning.textContent = rite.meaning;
+  // set direction for RTL languages (Arabic)
+  if (state.rite === 'arabic') {
+    previewOriginal.dir = 'rtl';
+    previewTranslit.dir = 'ltr';
+    previewMeaning.dir = 'ltr';
+  } else {
+    previewOriginal.dir = 'auto';
+    previewTranslit.dir = 'auto';
+    previewMeaning.dir = 'auto';
+  }
   countDesc.textContent = COUNT_DESC[state.count];
 }
 
@@ -633,6 +652,14 @@ function updatePrayerUI() {
   setPrayerImage(getSessionImageForCurrentStep(), false);
   prayerOrigText.innerHTML = rite.original;
   prayerTranslit.textContent = rite.transliteration;
+  // set direction for Arabic prayer text
+  if (state.rite === 'arabic') {
+    prayerOrigText.dir = 'rtl';
+    prayerTranslit.dir = 'ltr';
+  } else {
+    prayerOrigText.dir = 'auto';
+    prayerTranslit.dir = 'auto';
+  }
   updateCounter();
 }
 
