@@ -477,6 +477,11 @@ let state = {
   audioCtx: null,
 };
 
+// YouTube background player
+let ytPlayer = null;
+let ytPlayerReady = false;
+let ytVideoId = 'V1bFr2SWP1I'; // default ambient track
+
 // â”€â”€ DOM REFS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const screens = {
   setup: document.getElementById('screen-setup'),
@@ -733,6 +738,48 @@ function playDoneSound() {
   } catch (e) { /* audio not critical */ }
 }
 
+// YouTube iframe API callbacks
+function onPlayerStateChange(event) {
+  // loop single video
+  if (event.data === YT.PlayerState.ENDED) {
+    try { ytPlayer.seekTo(0); ytPlayer.playVideo(); } catch (e) { /* ignore */ }
+  }
+}
+
+function onPlayerReady() {
+  ytPlayerReady = true;
+  // ensure playlist contains video for looping
+  try {
+    // cue initial video
+    ytPlayer.cueVideoById(ytVideoId);
+  } catch (e) { /* ignore */ }
+  manageBackgroundAudio();
+}
+
+// global callback used by YouTube iframe API
+function onYouTubeIframeAPIReady() {
+  try {
+    ytPlayer = new YT.Player('yt-player', {
+      height: '0',
+      width: '0',
+      videoId: ytVideoId,
+      playerVars: {
+        controls: 0,
+        autoplay: 0,
+        loop: 1,
+        playlist: ytVideoId,
+        modestbranding: 1,
+        rel: 0,
+        disablekb: 1,
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange,
+      }
+    });
+  } catch (e) { /* ignore if YT API missing */ }
+}
+
 // â”€â”€ HAPTIC â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function vibrate(pattern) {
   if ('vibrate' in navigator) navigator.vibrate(pattern);
@@ -796,6 +843,57 @@ riteGrid.addEventListener('click', (e) => {
   card.classList.add('active');
   state.rite = selectedRite;
   updateSetupUI();
+});
+
+// Long-press support for mobile (hold sound button to change YouTube ID)
+let longPressTimer = null;
+let longPressFired = false;
+function beginLongPress(e) {
+  longPressFired = false;
+  if (longPressTimer) clearTimeout(longPressTimer);
+  longPressTimer = setTimeout(() => {
+    longPressFired = true;
+    const newId = prompt('Masukkan YouTube video ID (teks setelah ?v=). Contoh: kJ4s3G7hgR4', ytVideoId);
+    if (newId) {
+      ytVideoId = newId.trim();
+      if (ytPlayer && ytPlayerReady) {
+        try { ytPlayer.loadVideoById(ytVideoId); } catch (err) { /* ignore */ }
+      }
+      alert('ID video diperbarui. Tekan tombol suara untuk memutar.');
+    }
+  }, 700);
+}
+function cancelLongPress() {
+  if (longPressTimer) clearTimeout(longPressTimer);
+  longPressTimer = null;
+}
+
+soundBtn.addEventListener('pointerdown', beginLongPress);
+soundBtn.addEventListener('touchstart', beginLongPress, {passive:true});
+soundBtn.addEventListener('pointerup', cancelLongPress);
+soundBtn.addEventListener('pointercancel', cancelLongPress);
+soundBtn.addEventListener('pointerleave', cancelLongPress);
+soundBtn.addEventListener('touchend', cancelLongPress);
+
+// Sound button: toggle sound; Shift/Alt+click to change YouTube ID
+soundBtn.addEventListener('click', (e) => {
+  if (longPressFired) { longPressFired = false; return; }
+  // if user wants to change the YouTube ID (desktop shortcut)
+  if (e.shiftKey || e.altKey) {
+    const newId = prompt('Masukkan YouTube video ID (teks setelah ?v=). Contoh: kJ4s3G7hgR4', ytVideoId);
+    if (newId) {
+      ytVideoId = newId.trim();
+      if (ytPlayer && ytPlayerReady) {
+        try { ytPlayer.loadVideoById(ytVideoId); } catch (err) { /* ignore */ }
+      }
+      alert('ID video diperbarui. Tekan tombol suara untuk memutar.');
+    }
+    return;
+  }
+
+  state.soundOn = !state.soundOn;
+  updateSoundButton();
+  manageBackgroundAudio();
 });
 
 // Count selector

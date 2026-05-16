@@ -39,3 +39,13 @@ npm run download-images
 
 Hak cipta pada aset ikon dan kutipan masing-masing milik pemiliknya.
 Kode sumber terbuka — silakan digunakan untuk tujuan rohani dan edukasi.
+
+## Audio Latar (YouTube)
+
+Aplikasi mendukung audio latar yang dimainkan lewat YouTube iframe API. Secara default aplikasi menggunakan ID video `V1bFr2SWP1I` (ambient). Untuk mengganti lagu:
+
+- Klik tombol `Suara` untuk menyalakan/mematikan audio.
+- Untuk mengganti video, tekan **Shift+klik** atau **Alt+klik** pada tombol `Suara`, lalu masukkan video ID (teks setelah `?v=` pada URL YouTube).
+- Contoh URL: `https://www.youtube.com/watch?v=kJ4s3G7hgR4` → ID: `kJ4s3G7hgR4`.
+
+Atau ubah nilai default langsung di `app.js` pada variabel `ytVideoId`.
