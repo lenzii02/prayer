@@ -2,7 +2,7 @@
 
 Aplikasi web doa kontemplatif digital untuk mendaraskan **Doa Puja Yesus (Jesus Prayer)** dari berbagai tradisi Kristen: Ortodoks Bizantin, Katolik Roma, Siriak, Koptik, dan lainnya.
 
-🌐 **Demo:** https://prayer-steel-kappa.vercel.app
+🌐 **Demo:** https://prayer-iota-cyan.vercel.app
 
 ## Fitur
 
