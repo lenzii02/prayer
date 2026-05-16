@@ -509,6 +509,7 @@ const tapBtn            = document.getElementById('tap-btn');
 const tapRipple         = document.getElementById('tap-ripple');
 const resetBtn          = document.getElementById('reset-btn');
 const soundBtn          = document.getElementById('sound-btn');
+const bgAudio           = document.getElementById('bg-audio');
 
 // Done screen
 const doneCount      = document.getElementById('done-count');
@@ -523,6 +524,18 @@ function showScreen(name) {
   Object.entries(screens).forEach(([key, el]) => {
     el.classList.toggle('active', key === name);
   });
+  manageBackgroundAudio();
+}
+
+function manageBackgroundAudio() {
+  if (!ytPlayerReady || !ytPlayer) return;
+
+  // Mainkan audio latar hanya jika suara ON dan sedang di layar doa
+  if (state.soundOn && screens.prayer.classList.contains('active')) {
+    ytPlayer.playVideo();
+  } else {
+    ytPlayer.pauseVideo();
+  }
 }
 
 function getCurrentRite() {
@@ -831,6 +844,7 @@ soundBtn.addEventListener('click', () => {
   if (state.soundOn) {
     ensureAudioCtx();
     playTapSound(); // preview sound
+    manageBackgroundAudio();
   }
 });
 
