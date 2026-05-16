@@ -31,7 +31,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  height: 100%;
+  width: 100%;
+  min-height: 100%;
   overflow: hidden;
   background: var(--charcoal);
   color: var(--parchment);
@@ -47,8 +48,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ============================= */
 .screen {
   position: fixed; inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   display: flex; flex-direction: column;
+  overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
   opacity: 0; pointer-events: none;
   transition: opacity 0.5s ease, transform 0.5s ease;
   transform: translateY(20px);
@@ -61,9 +68,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* =============================
    SCREEN 1 — SETUP
    ============================= */
-#screen-setup { position: relative; z-index: 1;
-  background: radial-gradient(ellipse at 60% 0%, #1A0E24 0%, var(--charcoal) 70%); z-index: 1;
-  padding: 0 0 40px;
+#screen-setup {
+  background: radial-gradient(ellipse at 60% 0%, #1A0E24 0%, var(--charcoal) 70%);
+  z-index: 1;
+  padding: 0 0 max(40px, env(safe-area-inset-bottom));
 }
 
 /* Background orbs */
@@ -81,7 +89,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Header */
 .setup-header {
   text-align: center;
-  padding: 52px 24px 32px;
+  padding: max(28px, env(safe-area-inset-top)) 20px 22px;
   position: relative;
   z-index: 2;
 }
@@ -113,7 +121,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* Setup Main */
-.setup-main { padding: 0 20px; display: flex; flex-direction: column; gap: 28px; position: relative; z-index: 2; }
+.setup-main {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 0 14px max(32px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
 
 /* Section label */
 .section-label {
@@ -128,12 +145,15 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Rite Grid */
 .rite-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 8px;
 }
 .rite-card {
   display: flex; flex-direction: column; align-items: center;
-  gap: 4px; padding: 14px 8px;
+  justify-content: center;
+  gap: 3px; padding: 12px 6px;
+  min-width: 0;
+  min-height: 64px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(201,168,76,0.15);
   border-radius: var(--radius-card);
@@ -158,11 +178,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1;
 }
 .rite-name { font-family: var(--font-heading); font-size: 0.8rem; font-weight: 600; color: inherit; }
-.rite-tradition { font-size: 0.6rem; color: var(--parchment-dim); opacity: 0.7; text-align: center; }
+.rite-tradition {
+  width: 100%;
+  font-size: 0.6rem;
+  color: var(--parchment-dim);
+  opacity: 0.7;
+  text-align: center;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
 .rite-card.active .rite-tradition { opacity: 1; color: var(--gold-dim); }
 
 /* Count Selector */
-.count-selector { display: flex; gap: 10px; }
+.count-selector {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
 .count-btn {
   flex: 1; padding: 14px 4px;
   font-family: var(--font-heading);
@@ -191,9 +223,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: rgba(201,168,76,0.06);
   border: 1px solid rgba(201,168,76,0.2);
   border-radius: var(--radius-card);
-  padding: 20px;
+  padding: 16px 14px;
   text-align: center;
   display: flex; flex-direction: column; gap: 10px;
+  overflow-wrap: anywhere;
 }
 .preview-original {
   font-size: 1.05rem; line-height: 1.7;
@@ -214,7 +247,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Start Button */
 .start-btn {
   display: flex; align-items: center; justify-content: center; gap: 12px;
-  width: 100%; padding: 18px;
+  width: 100%; padding: 16px;
   background: linear-gradient(135deg, #8E2438, #6B1A2A);
   border: 1px solid rgba(201,168,76,0.4);
   border-radius: var(--radius-card);
@@ -247,7 +280,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 #screen-prayer {
   background: var(--charcoal);
   justify-content: flex-start;
-  padding-bottom: 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
 }
 
 .prayer-bg {
@@ -270,7 +303,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .prayer-nav {
   position: relative; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px;
+  padding: max(16px, env(safe-area-inset-top)) 20px 16px;
+  gap: 12px;
 }
 .back-btn {
   font-family: var(--font-heading); font-size: 0.75rem;
@@ -282,6 +316,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-family: var(--font-heading); font-size: 0.65rem;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--gold-dim);
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
 /* Icon display */
@@ -334,7 +371,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Prayer text */
 .prayer-text-display {
   position: relative; z-index: 10;
-  text-align: center; padding: 16px 24px 0;
+  width: min(100%, 680px);
+  margin: 0 auto;
+  text-align: center; padding: 16px 18px 0;
+  overflow-wrap: anywhere;
 }
 .prayer-original-text {
   font-size: 1rem; line-height: 1.8;
@@ -458,7 +498,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative; z-index: 10;
   text-align: center; padding: 32px 28px;
   display: flex; flex-direction: column; align-items: center; gap: 20px;
-  max-width: 420px; width: 100%;
+  max-width: 420px; width: min(100%, 420px);
 }
 .done-cross {
   font-size: 3rem; color: var(--gold);
@@ -513,12 +553,37 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    RESPONSIVE
    ============================= */
 @media (min-width: 480px) {
-  .rite-grid { grid-template-columns: repeat(3, 1fr); }
   .icon-frame { width: 180px; height: 230px; }
 }
+@media (max-width: 380px) {
+  .setup-header { padding: max(22px, env(safe-area-inset-top)) 14px 16px; }
+  .setup-main { padding-inline: 10px; gap: 14px; }
+  .rite-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .rite-card { min-height: 58px; padding: 10px 6px; }
+  .count-selector { gap: 8px; }
+  .count-btn { padding: 12px 2px; }
+  .prayer-preview { padding: 16px 12px; }
+  .app-subtitle { font-size: 0.66rem; letter-spacing: 0.14em; }
+}
+@media (max-height: 740px) {
+  .setup-header { padding-top: max(18px, env(safe-area-inset-top)); padding-bottom: 14px; }
+  .cross-icon { margin-bottom: 6px; }
+  .setup-main { gap: 12px; }
+  .section-label { margin-bottom: 8px; }
+  .rite-card { min-height: 56px; padding: 9px 6px; }
+  .rite-flag { font-size: 1.1rem; }
+  .rite-name { font-size: 0.72rem; }
+  .rite-tradition { font-size: 0.55rem; }
+  .count-btn { padding: 10px 2px; }
+  .count-desc { margin-top: 6px; }
+  .preview-original { font-size: 0.94rem; line-height: 1.55; }
+  .preview-transliteration { font-size: 0.72rem; }
+  .preview-meaning { font-size: 0.72rem; }
+  .start-btn { padding: 14px; }
+}
 @media (max-height: 680px) {
-  .setup-header { padding: 32px 24px 20px; }
-  .setup-main { gap: 18px; }
+  .setup-header { padding: max(16px, env(safe-area-inset-top)) 14px 12px; }
+  .setup-main { gap: 10px; }
   .icon-frame { width: 140px; height: 175px; }
   .icon-container { padding-top: 4px; }
   .prayer-text-display { padding-top: 10px; }

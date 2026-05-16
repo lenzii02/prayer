@@ -6,7 +6,8 @@
   "scripts": {
     "download-images": "node scripts/download_images_playwright.js",
     "download-icons": "node scripts/download_icons_v2.js",
-    "download-icons-browser": "node scripts/download_icons_browser.js"
+    "download-icons-browser": "node scripts/download_icons_browser.js",
+    "download-thumbs": "node scripts/download_thumbnails_api.js"
   },
   "dependencies": {
     "playwright": "^1.35.1"
