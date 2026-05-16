@@ -1,0 +1,527 @@
+/* =============================
+   DESIGN TOKENS — Byzantine Palette
+   ============================= */
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  #E8C97A;
+  --gold-dim:    #7A5E28;
+  --burgundy:    #6B1A2A;
+  --burgundy-lt: #8E2438;
+  --navy:        #0D1B35;
+  --navy-mid:    #162040;
+  --charcoal:    #0A0A12;
+  --parchment:   #F5EDD8;
+  --parchment-dim: #C4B48A;
+  --white:       #FFFFFF;
+
+  --font-title:  'Cinzel Decorative', serif;
+  --font-heading:'Cinzel', serif;
+  --font-body:   'EB Garamond', serif;
+
+  --radius-card: 16px;
+  --radius-btn:  12px;
+  --shadow-gold: 0 0 32px rgba(201,168,76,0.25);
+  --shadow-deep: 0 8px 40px rgba(0,0,0,0.7);
+  --transition:  0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* =============================
+   RESET & BASE
+   ============================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--charcoal);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* =============================
+   SCREEN SYSTEM
+   ============================= */
+.screen {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(20px);
+}
+.screen.active {
+  opacity: 1; pointer-events: all;
+  transform: translateY(0);
+}
+
+/* =============================
+   SCREEN 1 — SETUP
+   ============================= */
+#screen-setup { position: relative; z-index: 1;
+  background: radial-gradient(ellipse at 60% 0%, #1A0E24 0%, var(--charcoal) 70%); z-index: 1;
+  padding: 0 0 40px;
+}
+
+/* Background orbs */
+.bg-orbs { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: 0.18;
+  animation: drift 12s ease-in-out infinite alternate;
+}
+.orb-1 { width: 500px; height: 500px; background: var(--gold); top: -200px; right: -150px; animation-delay: 0s; }
+.orb-2 { width: 350px; height: 350px; background: var(--burgundy); bottom: 0; left: -100px; animation-delay: -4s; }
+.orb-3 { width: 280px; height: 280px; background: #1E3A6B; top: 40%; left: 30%; animation-delay: -8s; }
+@keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.1); } }
+
+/* Header */
+.setup-header {
+  text-align: center;
+  padding: 52px 24px 32px;
+  position: relative;
+  z-index: 2;
+}
+.cross-icon {
+  font-size: 2rem; color: var(--gold);
+  display: block; margin-bottom: 12px;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "Arial Unicode MS", serif;
+  text-shadow: 0 0 20px rgba(201,168,76,0.6);
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+@keyframes pulse-gold {
+  0%,100% { text-shadow: 0 0 20px rgba(201,168,76,0.4); }
+  50% { text-shadow: 0 0 40px rgba(201,168,76,0.9); }
+}
+.app-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+.app-subtitle {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  color: var(--parchment-dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* Setup Main */
+.setup-main { padding: 0 20px; display: flex; flex-direction: column; gap: 28px; position: relative; z-index: 2; }
+
+/* Section label */
+.section-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 14px;
+}
+
+/* Rite Grid */
+.rite-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.rite-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 14px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius-card);
+  color: var(--parchment-dim);
+  transition: var(--transition);
+  font-family: var(--font-body);
+}
+.rite-card:hover {
+  background: rgba(201,168,76,0.08);
+  border-color: rgba(201,168,76,0.4);
+  transform: translateY(-2px);
+}
+.rite-card.active {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: 0 0 16px rgba(201,168,76,0.2);
+}
+.rite-flag {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "Arial Unicode MS", serif;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.rite-name { font-family: var(--font-heading); font-size: 0.8rem; font-weight: 600; color: inherit; }
+.rite-tradition { font-size: 0.6rem; color: var(--parchment-dim); opacity: 0.7; text-align: center; }
+.rite-card.active .rite-tradition { opacity: 1; color: var(--gold-dim); }
+
+/* Count Selector */
+.count-selector { display: flex; gap: 10px; }
+.count-btn {
+  flex: 1; padding: 14px 4px;
+  font-family: var(--font-heading);
+  font-size: 1.1rem; font-weight: 700;
+  border-radius: var(--radius-btn);
+  color: var(--parchment-dim);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.15);
+  transition: var(--transition);
+}
+.count-btn:hover { background: rgba(201,168,76,0.08); border-color: rgba(201,168,76,0.4); }
+.count-btn.active {
+  background: linear-gradient(135deg, var(--gold-dim), #5A4020);
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: var(--shadow-gold);
+}
+.count-desc {
+  font-size: 0.72rem; color: var(--parchment-dim);
+  opacity: 0.6; margin-top: 10px; text-align: center;
+  font-style: italic;
+}
+
+/* Prayer Preview */
+.prayer-preview {
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  text-align: center;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.preview-original {
+  font-size: 1.05rem; line-height: 1.7;
+  color: var(--gold-light);
+  font-style: italic;
+}
+.preview-transliteration {
+  font-size: 0.8rem; color: var(--parchment-dim);
+  font-style: italic; opacity: 0.8;
+}
+.preview-meaning {
+  font-size: 0.78rem; color: var(--parchment-dim);
+  opacity: 0.6;
+  border-top: 1px solid rgba(201,168,76,0.15);
+  padding-top: 10px;
+}
+
+/* Start Button */
+.start-btn {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; padding: 18px;
+  background: linear-gradient(135deg, #8E2438, #6B1A2A);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: var(--radius-card);
+  font-family: var(--font-heading);
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+  box-shadow: 0 4px 30px rgba(107,26,42,0.5);
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.start-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(201,168,76,0.1));
+  opacity: 0; transition: opacity 0.3s;
+}
+.start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(107,26,42,0.7); }
+.start-btn:hover::before { opacity: 1; }
+.start-btn:active { transform: translateY(0); }
+.start-btn-icon {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "Arial Unicode MS", serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+/* =============================
+   SCREEN 2 — PRAYER MODE
+   ============================= */
+#screen-prayer {
+  background: var(--charcoal);
+  justify-content: flex-start;
+  padding-bottom: 24px;
+}
+
+.prayer-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse at 50% 40%, #1A0808 0%, var(--charcoal) 70%);
+}
+.prayer-glow {
+  position: absolute; top: 20%; left: 50%; transform: translate(-50%,-50%);
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  border-radius: 50%; filter: blur(40px);
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); }
+}
+
+/* Nav */
+.prayer-nav {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+}
+.back-btn {
+  font-family: var(--font-heading); font-size: 0.75rem;
+  color: var(--parchment-dim); letter-spacing: 0.1em;
+  opacity: 0.7; transition: opacity 0.2s;
+}
+.back-btn:hover { opacity: 1; }
+.prayer-rite-label {
+  font-family: var(--font-heading); font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+/* Icon display */
+.icon-container {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 8px 20px 0;
+}
+.icon-halo {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+  border-radius: 50%; animation: halo-pulse 4s ease-in-out infinite;
+}
+@keyframes halo-pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%,-50%) scale(1.1); opacity: 1; }
+}
+.icon-frame {
+  width: 160px; height: 200px;
+  border: 2px solid rgba(201,168,76,0.4);
+  border-radius: 80px 80px 12px 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(201,168,76,0.2), var(--shadow-deep);
+  background: #1A0E10;
+  position: relative;
+}
+.icon-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  filter: sepia(10%) contrast(1.05) brightness(0.95);
+}
+.icon-next {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.icon-frame.revealing .icon-next {
+  opacity: 1;
+}
+.icon-caption {
+  font-family: var(--font-heading); font-size: 0.6rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold-dim); margin-top: 8px;
+  opacity: 0.8;
+}
+
+/* Prayer text */
+.prayer-text-display {
+  position: relative; z-index: 10;
+  text-align: center; padding: 16px 24px 0;
+}
+.prayer-original-text {
+  font-size: 1rem; line-height: 1.8;
+  color: var(--gold-light); font-style: italic;
+}
+.prayer-translit-text {
+  font-size: 0.72rem; color: var(--parchment-dim);
+  opacity: 0.6; margin-top: 4px; font-style: italic;
+}
+
+/* Counter */
+.counter-area {
+  position: relative; z-index: 10;
+  display: flex; justify-content: center;
+  padding: 16px 0 8px;
+}
+.counter-ring {
+  position: relative; width: 120px; height: 120px;
+}
+.progress-svg {
+  position: absolute; inset: 0;
+  transform: rotate(-90deg);
+  width: 100%; height: 100%;
+}
+.progress-bg {
+  fill: none; stroke: rgba(201,168,76,0.1); stroke-width: 5;
+}
+.progress-fill {
+  fill: none; stroke: var(--gold); stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+.counter-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.counter-number {
+  font-family: var(--font-heading); font-size: 2.2rem; font-weight: 700;
+  color: var(--gold-light); line-height: 1;
+}
+.counter-total {
+  font-size: 0.65rem; color: var(--parchment-dim);
+  opacity: 0.6; margin-top: 2px;
+}
+
+/* Tap button */
+.tap-btn {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px;
+  width: 110px; height: 110px;
+  margin: 0 auto;
+  background: radial-gradient(circle at 40% 35%, #8E2438, #4A0E1A);
+  border: 2px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(142,36,56,0.4), var(--shadow-deep);
+  transition: transform 0.1s, box-shadow 0.1s;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+.tap-btn:active {
+  transform: scale(0.93);
+  box-shadow: 0 0 15px rgba(142,36,56,0.3);
+}
+.tap-btn-cross {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "Arial Unicode MS", serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+.tap-btn-text {
+  font-family: var(--font-heading); font-size: 0.55rem;
+  letter-spacing: 0.3em; color: var(--gold-dim);
+}
+.tap-ripple {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.3) 0%, transparent 70%);
+  opacity: 0; transform: scale(0);
+  pointer-events: none;
+}
+.tap-ripple.animate {
+  animation: ripple-out 0.5s ease-out forwards;
+}
+@keyframes ripple-out {
+  from { opacity: 1; transform: scale(0); }
+  to   { opacity: 0; transform: scale(2); }
+}
+
+/* Controls */
+.prayer-controls {
+  position: relative; z-index: 10;
+  display: flex; justify-content: center; gap: 20px;
+  padding-top: 16px;
+}
+.ctrl-btn {
+  font-family: var(--font-heading); font-size: 0.72rem;
+  letter-spacing: 0.1em; color: var(--parchment-dim);
+  padding: 10px 20px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 50px; opacity: 0.7;
+  transition: var(--transition);
+}
+.ctrl-btn:hover { opacity: 1; border-color: var(--gold); color: var(--gold-light); }
+.ctrl-btn.sound-on { color: var(--gold-light); border-color: var(--gold); opacity: 1; }
+
+/* =============================
+   SCREEN 3 — DONE
+   ============================= */
+#screen-done {
+  background: var(--charcoal);
+  align-items: center; justify-content: center;
+}
+.done-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.done-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.done-content {
+  position: relative; z-index: 10;
+  text-align: center; padding: 32px 28px;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  max-width: 420px; width: 100%;
+}
+.done-cross {
+  font-size: 3rem; color: var(--gold);
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Noto Sans Symbols", "Arial Unicode MS", serif;
+  text-shadow: 0 0 40px rgba(201,168,76,0.7);
+  animation: pulse-gold 3s ease-in-out infinite;
+}
+.done-title {
+  font-family: var(--font-title); font-size: 1.8rem;
+  color: var(--gold-light);
+}
+.done-subtitle {
+  font-size: 0.9rem; color: var(--parchment-dim); opacity: 0.8;
+}
+.done-quote {
+  background: rgba(201,168,76,0.06);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: 0 12px 12px 0;
+  padding: 20px 24px; text-align: left;
+}
+.quote-text {
+  font-size: 0.9rem; line-height: 1.8; font-style: italic;
+  color: var(--parchment);
+}
+.quote-source {
+  font-family: var(--font-heading); font-size: 0.65rem;
+  letter-spacing: 0.1em; color: var(--gold-dim);
+  margin-top: 10px; text-transform: uppercase;
+}
+.done-actions { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.done-btn {
+  width: 100%; padding: 16px;
+  border-radius: var(--radius-card);
+  font-family: var(--font-heading); font-size: 0.9rem;
+  letter-spacing: 0.08em; font-weight: 600;
+  transition: var(--transition);
+}
+.done-btn.primary {
+  background: linear-gradient(135deg, var(--burgundy-lt), var(--burgundy));
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold-light);
+  box-shadow: 0 4px 20px rgba(107,26,42,0.4);
+}
+.done-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(201,168,76,0.2);
+  color: var(--parchment-dim);
+}
+.done-btn:hover { transform: translateY(-2px); }
+
+/* =============================
+   RESPONSIVE
+   ============================= */
+@media (min-width: 480px) {
+  .rite-grid { grid-template-columns: repeat(3, 1fr); }
+  .icon-frame { width: 180px; height: 230px; }
+}
+@media (max-height: 680px) {
+  .setup-header { padding: 32px 24px 20px; }
+  .setup-main { gap: 18px; }
+  .icon-frame { width: 140px; height: 175px; }
+  .icon-container { padding-top: 4px; }
+  .prayer-text-display { padding-top: 10px; }
+  .counter-area { padding: 10px 0 6px; }
+  .tap-btn { width: 96px; height: 96px; }
+}

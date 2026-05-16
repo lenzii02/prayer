@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Doa Puja Yesus &mdash; The Jesus Prayer Across Rites</title>
+  <meta name="description" content="Aplikasi doa kontemplatif digital untuk mendaraskan Doa Puja Yesus dari berbagai ritus: Ortodoks Bizantin, Katolik, Siriak, dan Koptik." />
+  <link rel="icon" href="images/06_last_supper_icon.jpg" />
+  <link rel="apple-touch-icon" href="images/06_last_supper_icon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================
+       SCREEN 1: LANDING / SETUP
+  ============================= -->
+  <div id="screen-setup" class="screen active">
+    <!-- Atmospheric background -->
+    <div class="bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <header class="setup-header">
+      <div class="cross-icon">&#10013;</div>
+      <h1 class="app-title">Doa Puja Yesus</h1>
+      <p class="app-subtitle">The Jesus Prayer Across Rites</p>
+    </header>
+
+    <main class="setup-main">
+
+      <!-- RITE / LANGUAGE SELECTOR -->
+      <section class="config-section" aria-label="Pilih Ritus dan Bahasa">
+        <h2 class="section-label">Pilih Ritus &amp; Bahasa</h2>
+        <div class="rite-grid" id="rite-grid">
+
+          <button class="rite-card active" data-rite="greek" id="rite-greek">
+            <span class="rite-flag">&#9766;</span>
+            <span class="rite-name">Yunani</span>
+            <span class="rite-tradition">Ortodoks Bizantin</span>
+          </button>
+
+          <button class="rite-card" data-rite="latin" id="rite-latin">
+            <span class="rite-flag">&#10013;</span>
+            <span class="rite-name">Latin</span>
+            <span class="rite-tradition">Katolik Roma</span>
+          </button>
+
+          <button class="rite-card" data-rite="aramaic" id="rite-aramaic">
+            <span class="rite-flag">&#10016;</span>
+            <span class="rite-name">Aramaik</span>
+            <span class="rite-tradition">Siriak Timur</span>
+          </button>
+
+          <button class="rite-card" data-rite="coptic" id="rite-coptic">
+            <span class="rite-flag">&#10021;</span>
+            <span class="rite-name">Koptik</span>
+            <span class="rite-tradition">Ortodoks Timur</span>
+          </button>
+
+          <button class="rite-card" data-rite="slavic" id="rite-slavic">
+            <span class="rite-flag">&#9766;</span>
+            <span class="rite-name">Slavonik</span>
+            <span class="rite-tradition">Ortodoks Rusia</span>
+          </button>
+
+          <button class="rite-card" data-rite="indonesia" id="rite-indonesia">
+            <span class="rite-flag">&#10013;</span>
+            <span class="rite-name">Indonesia</span>
+            <span class="rite-tradition">Lintas Ritus</span>
+          </button>
+
+          <button class="rite-card" data-rite="syriac" id="rite-syriac">
+            <span class="rite-flag">&#10016;</span>
+            <span class="rite-name">Suriah</span>
+            <span class="rite-tradition">Tradisi Aramaik Barat</span>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- COUNT SELECTOR -->
+      <section class="config-section" aria-label="Pilih jumlah hitungan doa">
+        <h2 class="section-label">Jumlah Hitungan</h2>
+        <div class="count-selector" id="count-selector">
+          <button class="count-btn" data-count="33" id="count-33">33</button>
+          <button class="count-btn active" data-count="50" id="count-50">50</button>
+          <button class="count-btn" data-count="100" id="count-100">100</button>
+          <button class="count-btn" data-count="200" id="count-200">200</button>
+        </div>
+        <p class="count-desc" id="count-desc">Tradisi umum monastik &middot; Setara 1 dekade chotki</p>
+      </section>
+
+      <!-- PRAYER PREVIEW -->
+      <section class="prayer-preview" id="prayer-preview" aria-label="Pratinjau teks doa">
+        <div class="preview-original" id="preview-original">ÎšÏÏÎ¹Îµ á¼¸Î·ÏƒÎ¿á¿¦ Î§ÏÎ¹ÏƒÏ„Î­, Î¥á¼±á½² Ï„Î¿á¿¦ Î˜ÎµÎ¿á¿¦,<br/>á¼Î»Î­Î·ÏƒÏŒÎ½ Î¼Îµ Ï„á½¸Î½ á¼Î¼Î±ÏÏ„Ï‰Î»ÏŒÎ½.</div>
+        <div class="preview-transliteration" id="preview-transliteration">Kyrie Iesou Christe, Yie tou Theou,<br/>eleison me ton hamartolon.</div>
+        <div class="preview-meaning" id="preview-meaning">Tuhan Yesus Kristus, Putra Allah, kasihanilah aku, orang berdosa ini.</div>
+      </section>
+
+      <!-- START BUTTON -->
+      <button class="start-btn" id="start-btn" aria-label="Mulai sesi doa">
+        <span class="start-btn-icon">&#9766;</span>
+        Mulai Sesi Doa
+      </button>
+
+    </main>
+  </div>
+
+
+  <!-- ============================
+       SCREEN 2: MEDITATIVE MODE
+  ============================= -->
+  <div id="screen-prayer" class="screen">
+
+    <!-- Dark atmospheric background -->
+    <div class="prayer-bg">
+      <div class="prayer-glow"></div>
+    </div>
+
+    <!-- Top bar -->
+    <nav class="prayer-nav">
+      <button class="back-btn" id="back-btn" aria-label="Kembali ke pengaturan">
+        &larr; Kembali
+      </button>
+      <div class="prayer-rite-label" id="prayer-rite-label">Yunani &middot; Ortodoks Bizantin</div>
+    </nav>
+
+    <!-- Icon display -->
+    <div class="icon-container">
+      <div class="icon-halo"></div>
+      <div class="icon-frame" id="icon-frame">
+        <img
+          id="jesus-icon"
+          src="images/06_last_supper_icon.jpg"
+          alt="Ikon Perjamuan Terakhir Yesus bersama para rasul"
+          loading="eager"
+        />
+        <img
+          id="jesus-icon-next"
+          class="icon-next"
+          src="images/06_last_supper_icon.jpg"
+          alt=""
+          aria-hidden="true"
+        />
+      </div>
+      <p class="icon-caption" id="icon-caption">Perjamuan Terakhir &middot; Ikon Tradisi Timur</p>
+    </div>
+
+    <!-- Prayer text display -->
+    <div class="prayer-text-display">
+      <div class="prayer-original-text" id="prayer-original-text">
+        ÎšÏÏÎ¹Îµ á¼¸Î·ÏƒÎ¿á¿¦ Î§ÏÎ¹ÏƒÏ„Î­, Î¥á¼±á½² Ï„Î¿á¿¦ Î˜ÎµÎ¿á¿¦,<br/>á¼Î»Î­Î·ÏƒÏŒÎ½ Î¼Îµ Ï„á½¸Î½ á¼Î¼Î±ÏÏ„Ï‰Î»ÏŒÎ½.
+      </div>
+      <div class="prayer-translit-text" id="prayer-translit-text">
+        Kyrie Iesou Christe, Yie tou Theou, eleison me ton hamartolon.
+      </div>
+    </div>
+
+    <!-- Counter area -->
+    <div class="counter-area">
+      <div class="counter-ring" id="counter-ring">
+        <svg class="progress-svg" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="progress-bg" cx="60" cy="60" r="54"/>
+          <circle class="progress-fill" id="progress-circle" cx="60" cy="60" r="54"
+            stroke-dasharray="339.3" stroke-dashoffset="0"/>
+        </svg>
+        <div class="counter-inner">
+          <div class="counter-number" id="counter-number">50</div>
+          <div class="counter-total" id="counter-total">dari 50</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tap button -->
+    <button class="tap-btn" id="tap-btn" aria-label="Tap untuk menghitung doa">
+      <span class="tap-btn-cross">&#9766;</span>
+      <span class="tap-btn-text">TAP</span>
+      <div class="tap-ripple" id="tap-ripple"></div>
+    </button>
+
+    <!-- Bottom controls -->
+    <div class="prayer-controls">
+      <button class="ctrl-btn" id="reset-btn" aria-label="Ulangi hitungan">
+        &#8634; Ulang
+      </button>
+      <button class="ctrl-btn" id="sound-btn" aria-label="Toggle suara">
+        Suara
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- ============================
+       SCREEN 3: COMPLETION
+  ============================= -->
+  <div id="screen-done" class="screen">
+    <div class="done-bg">
+      <div class="done-glow"></div>
+    </div>
+
+    <div class="done-content">
+      <div class="done-cross">&#9766;</div>
+      <h2 class="done-title">Doa Selesai</h2>
+      <p class="done-subtitle" id="done-subtitle">Engkau telah mendaraskan <span id="done-count">50</span> kali Doa Puja Yesus.</p>
+
+      <div class="done-quote" id="done-quote">
+        <p class="quote-text">"Jika kamu berdoa tanpa henti, kamu akan menemukan apa yang kamu cari: ketenangan jiwa dan persatuan dengan Allah."</p>
+        <p class="quote-source">&mdash; St. Yohanes Klimakos, Tangga Ilahi</p>
+      </div>
+
+      <div class="done-actions">
+        <button class="done-btn primary" id="done-repeat-btn">Ulangi Sesi Ini</button>
+        <button class="done-btn secondary" id="done-home-btn">Kembali ke Beranda</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="app.js"></script>
+</body>
+</html>
+

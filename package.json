@@ -1,0 +1,14 @@
+{
+  "name": "prayer-image-downloader",
+  "version": "1.0.0",
+  "description": "Download images listed in images/manifest.md using Playwright",
+  "type": "commonjs",
+  "scripts": {
+    "download-images": "node scripts/download_images_playwright.js",
+    "download-icons": "node scripts/download_icons_v2.js",
+    "download-icons-browser": "node scripts/download_icons_browser.js"
+  },
+  "dependencies": {
+    "playwright": "^1.35.1"
+  }
+}
